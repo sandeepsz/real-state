@@ -42,7 +42,7 @@ const Header = () => {
 
           <Link to="/sign-in">
             <li className="bg-[#003b36] text-lg px-3 py-1 rounded text-white">
-              Sign In
+              Sign In Google
             </li>
           </Link>
         </ul>

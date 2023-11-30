@@ -1,11 +1,12 @@
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 const Signup = () => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChnage = (e) => {
     setFormData({
@@ -25,6 +26,7 @@ const Signup = () => {
       body: JSON.stringify(formData),
     });
     const data = await res.json();
+    navigate("/sign-in");
     toast.success("Account created successfully");
 
     if (data.success == false) {

@@ -1,12 +1,16 @@
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const handleChnage = (e) => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.id]: e.target.value,
@@ -16,6 +20,21 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const res = await fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    navigate("/");
+    if (data.success == false) {
+      setLoading(false);
+      toast.error(data.message);
+    }
+    setLoading(false);
   };
   return (
     <div className="px-4 max-w-lg mx-auto">
@@ -32,7 +51,7 @@ const SignIn = () => {
           placeholder="email"
           className="border p-3 rounded-lg focus:outline-none"
           id="email"
-          onChange={handleChnage}
+          onChange={handleChange}
         />
         <input
           required
@@ -40,7 +59,7 @@ const SignIn = () => {
           placeholder="password"
           className="border p-3 rounded-lg focus:outline-none"
           id="password"
-          onChange={handleChnage}
+          onChange={handleChange}
         />
         <button
           disabled={loading}
@@ -56,6 +75,13 @@ const SignIn = () => {
           Continue with google
         </button>
       </form>
+      <div className="flex gap-2 mt-5">
+        <p>Don&apos;t have an account?</p>
+
+        <Link to={"/sign-up"}>
+          <span className="text-blue-700 ">Sign Up</span>
+        </Link>
+      </div>
     </div>
   );
 };

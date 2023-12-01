@@ -1,7 +1,7 @@
-import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { OAuth } from "../components/OAuth.jsx";
 
 const Signup = () => {
   const [formData, setFormData] = useState({});
@@ -75,13 +75,7 @@ const Signup = () => {
         >
           {loading ? "Loading..." : "Sign up"}
         </button>
-        <button className=" relative text-lg bg-transparent t border border-[#999999] p-3 rounded-lg">
-          <FcGoogle
-            size={23}
-            style={{ position: "absolute", top: "15px", left: "20px" }}
-          />
-          Continue with google
-        </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p> already Have an account?</p>

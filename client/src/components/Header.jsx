@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-  // const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user);
 
   return (
     <header className="bg-slate-200 shadow-md">
@@ -42,12 +42,15 @@ const Header = () => {
           >
             <li>About</li>
           </Link>
-
-          <Link to="/sign-in">
-            <li className="bg-[#003b36] text-lg px-3 py-1 rounded text-white">
-              Sign In
-            </li>
-          </Link>
+          {currentUser ? (
+            <p>{currentUser.email.split("@")[0]}</p>
+          ) : (
+            <Link to="/sign-in">
+              <li className="bg-[#003b36] text-lg px-3 py-1 rounded text-white">
+                Sign In
+              </li>
+            </Link>
+          )}
         </ul>
       </div>
     </header>

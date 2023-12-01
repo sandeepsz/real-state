@@ -1,5 +1,3 @@
-import { FcGoogle } from "react-icons/fc";
-
 import { Link } from "react-router-dom";
 
 import { useState } from "react";
@@ -12,6 +10,7 @@ import {
   signInFailure,
   signInSuccess,
 } from "../redux/user/userSlice";
+import { OAuth } from "../components/OAuth.jsx";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -82,13 +81,7 @@ const SignIn = () => {
         >
           {loading ? "Loading..." : "Sign In"}
         </button>
-        <button className=" relative text-lg bg-transparent t border border-[#999999] p-3 rounded-lg">
-          <FcGoogle
-            size={23}
-            style={{ position: "absolute", top: "15px", left: "20px" }}
-          />
-          Continue with google
-        </button>
+        <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>Don&apos;t have an account?</p>

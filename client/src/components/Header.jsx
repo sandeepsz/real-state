@@ -43,7 +43,15 @@ const Header = () => {
             <li>About</li>
           </Link>
           {currentUser ? (
-            <p>{currentUser.email.split("@")[0]}</p>
+            <Link to="/profile">
+              <img
+                className="rounded-full"
+                width={35}
+                height={35}
+                alt="avater"
+                src={currentUser.avatar}
+              />
+            </Link>
           ) : (
             <Link to="/sign-in">
               <li className="bg-[#003b36] text-lg px-3 py-1 rounded text-white">

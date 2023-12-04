@@ -1,5 +1,13 @@
 const Profile = () => {
-  return <div>Profile This is Profile Page</div>;
+  return (
+    <div>
+      <h1 className="text-[24px]  text-center font-semibold mt-2">Profile</h1>
+
+      <form>
+        <input type="text" />
+      </form>
+    </div>
+  );
 };
 
 export default Profile;

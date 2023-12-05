@@ -14,10 +14,13 @@ const Profile = () => {
   const [file, setFile] = useState(undefined);
   const [fileper, setFileper] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
-
   const [formData, setFormData] = useState({});
 
-  console.log(fileper);
+  // function to handle form submit
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
 
   useEffect(() => {
     if (file) {
@@ -59,7 +62,7 @@ const Profile = () => {
     <div className=" px-4 max-w-lg mx-auto">
       <h1 className="text-[24px]  text-center font-semibold mt-2">Profile</h1>
 
-      <form className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           onChange={(e) => setFile(e.target.files[0])}
           type="file"

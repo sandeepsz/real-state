@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String,
       default:
-        "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
+        "https://img.freepik.com/premium-vector/artificial-intelligence-ai-robot-chat-bot-logo-vector-template_8169-533.jpg",
     },
   },
   {

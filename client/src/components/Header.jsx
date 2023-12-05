@@ -51,9 +51,8 @@ const Header = () => {
           {currentUser ? (
             <img
               onClick={onToggle}
-              className="rounded-full"
+              className="rounded-full object-cover"
               width={35}
-              height={35}
               alt="profile"
               src={currentUser.avatar}
             />

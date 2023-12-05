@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import {
   getDownloadURL,
   getStorage,
@@ -7,9 +8,16 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import {
+  updateUserStart,
+  updateUserFailure,
+  updateUserSuccess,
+} from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
   const fileRef = useRef(null);
+  const dispatch = useDispatch();
   const { currentUser, loading } = useSelector((state) => state.user);
   const [file, setFile] = useState(undefined);
   const [fileper, setFileper] = useState(0);
@@ -18,8 +26,36 @@ const Profile = () => {
 
   // function to handle form submit
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    try {
+      dispatch(updateUserStart());
+
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      toast.success("Profile updated successfully");
+
+      if (data.success === false) {
+        toast.error("something went wrong");
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+      dispatch(updateUserSuccess(formData));
+    } catch (err) {
+      dispatch(updateUserFailure(err.message));
+    }
   };
 
   useEffect(() => {
@@ -92,25 +128,26 @@ const Profile = () => {
         </p>
 
         <input
-          required
           type="text"
           placeholder="username"
+          defaultValue={currentUser.username}
           className="border p-3 rounded-lg focus:outline-none"
           id="username"
+          onChange={handleChange}
         />
         <input
-          required
           type="text"
           placeholder="email"
+          defaultValue={currentUser.email}
           className="border p-3 rounded-lg focus:outline-none"
-          id="username"
+          onChange={handleChange}
         />
         <input
-          required
-          type="text"
+          type="password"
           placeholder="password"
           className="border p-3 rounded-lg focus:outline-none"
           id="username"
+          onChange={handleChange}
         />
         <button
           disabled={loading}
@@ -125,6 +162,11 @@ const Profile = () => {
           {loading ? "Loading..." : "Create List"}
         </button>
       </form>
+
+      <button className="bg-red-500 my-5 rounded-md p-2 text-white hover:opacity-80">
+        Delete Account
+      </button>
+      <Toaster />
     </div>
   );
 };

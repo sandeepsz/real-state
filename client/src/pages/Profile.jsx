@@ -12,6 +12,9 @@ import {
   updateUserStart,
   updateUserFailure,
   updateUserSuccess,
+  deleteUserStart,
+  deleteUserFailure,
+  deleteUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
@@ -55,6 +58,27 @@ const Profile = () => {
       dispatch(updateUserSuccess(formData));
     } catch (err) {
       dispatch(updateUserFailure(err.message));
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        toast.error("something went wrong");
+        return;
+      }
+      dispatch(deleteUserSuccess());
+      toast.success("Account deleted successfully");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -163,7 +187,10 @@ const Profile = () => {
         </button>
       </form>
 
-      <button className="bg-red-500 my-5 rounded-md p-2 text-white hover:opacity-80">
+      <button
+        onClick={handleDeleteAccount}
+        className="bg-red-500 my-5 rounded-md p-2 text-white hover:opacity-80"
+      >
         Delete Account
       </button>
       <Toaster />

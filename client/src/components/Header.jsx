@@ -2,14 +2,40 @@ import { Link } from "react-router-dom";
 import { IoMdSearch } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useCallback, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import {
+  logoutUserStart,
+  logoutUserSuccess,
+  logoutUserFailure,
+} from "../redux/user/userSlice";
+import { useDispatch } from "react-redux";
 
 const Header = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
 
   const onToggle = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      dispatch(logoutUserStart());
+      const res = await fetch("/api/user/logout");
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(logoutUserFailure(data.message));
+        toast.error("something went wrong");
+        return;
+      }
+      dispatch(logoutUserSuccess());
+      toast.success("Logged out successfully");
+    } catch (err) {
+      dispatch(logoutUserFailure(err.message));
+    }
+  };
 
   return (
     <header className="bg-slate-200 shadow-md">
@@ -70,7 +96,7 @@ const Header = () => {
                 rounded-xl
                 shadow-md
                 w-28
-                md: w-40
+                md:w-40
                 bg-white
                 hidden-overflow
                 right-5
@@ -84,11 +110,14 @@ const Header = () => {
                 </li>
               </Link>
 
-              <li className="p-2 hover:bg-slate-100">Log Out</li>
+              <li onClick={handleLogout} className="p-2 hover:bg-slate-100">
+                Log Out
+              </li>
             </div>
           )}
         </ul>
       </div>
+      <Toaster />
     </header>
   );
 };

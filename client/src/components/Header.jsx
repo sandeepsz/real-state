@@ -22,7 +22,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       dispatch(logoutUserStart());
-      const res = await fetch("/api/user/logout");
+      const res = await fetch("/api/auth/logout");
       const data = await res.json();
 
       if (data.success === false) {
@@ -110,7 +110,7 @@ const Header = () => {
                 </li>
               </Link>
 
-              <li onClick={handleLogout} className="p-2 hover:bg-slate-100">
+              <li onClick={handleLogout} className="p-2 cursor-pointer hover:bg-slate-100">
                 Log Out
               </li>
             </div>

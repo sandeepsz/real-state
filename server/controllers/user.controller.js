@@ -50,7 +50,4 @@ export const deleteUser = async (req, res, next) => {
   }
 };
 
-export const logout = (req, res) => {
-  res.clearCookie("access_token");
-  res.json({ msg: "Logged out successfully" });
-};
+

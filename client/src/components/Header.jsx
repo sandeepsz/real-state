@@ -101,6 +101,7 @@ const Header = () => {
                 hidden-overflow
                 right-5
                 top-16
+                z-10
                 text-sm
                  "
             >
@@ -110,9 +111,14 @@ const Header = () => {
                 </li>
               </Link>
 
-              <li onClick={handleLogout} className="p-2 cursor-pointer hover:bg-slate-100">
-                Log Out
-              </li>
+              <span onClick={onToggle}>
+                <li
+                  onClick={handleLogout}
+                  className="p-2 cursor-pointer hover:bg-slate-100"
+                >
+                  Log Out
+                </li>
+              </span>
             </div>
           )}
         </ul>

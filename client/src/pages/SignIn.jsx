@@ -51,7 +51,7 @@ const SignIn = () => {
     }
   };
   return (
-    <div className="px-4  max-w-lg mx-auto">
+    <div className="px-4  max-w-lg mx-auto mt-10">
       <h1 className="text-3xl text-center font-semibold my-6 ">Sign In</h1>
 
       <form

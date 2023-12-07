@@ -119,7 +119,7 @@ const Profile = () => {
   // request.resource.contentType.matches('image/.*')
 
   return (
-    <div className=" px-4 max-w-lg mx-auto">
+    <div className=" px-4 max-w-lg mx-auto border border-black rounded-sm">
       <h1 className="text-[24px]  text-center font-semibold mt-2">Profile</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">

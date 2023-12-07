@@ -1,12 +1,16 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+dotenv.config();
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
+import listingRouter from "./routes/list.route.js";
 import cookieParser from "cookie-parser";
-dotenv.config();
+
+// initialize express
 const app = express();
 
+// connect to database
 mongoose
   .connect("mongodb://localhost:27017/real-state")
   .then(() => {
@@ -16,9 +20,10 @@ mongoose
     console.log(err);
   });
 
-
-
+// express.json is used to parse the request body
 app.use(express.json());
+
+// cookir parser is used to parse the cookie from the request header
 app.use(cookieParser());
 
 app.listen(3000, () => {
@@ -27,7 +32,9 @@ app.listen(3000, () => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/listing", listingRouter);
 
+// middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";

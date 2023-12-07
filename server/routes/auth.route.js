@@ -4,10 +4,7 @@ import {
   signin,
   google,
   logout,
- 
 } from "../controllers/auth.controller.js";
-
-
 
 const router = express.Router();
 

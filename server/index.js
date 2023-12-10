@@ -12,7 +12,7 @@ const app = express();
 
 // connect to database
 mongoose
-  .connect("mongodb://localhost:27017/real-state")
+  .connect(process.env.MONGO_DB_URI)
   .then(() => {
     console.log("Connected to Database");
   })

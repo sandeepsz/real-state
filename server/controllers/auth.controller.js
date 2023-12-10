@@ -2,9 +2,13 @@ import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
 import errorHandler from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import otp from "../models/otp.js";
+import sendEmail from "../utils/verifyOtp.js";
 
 // creating Register controller
 export const signup = async (req, res, next) => {
+  `
+`;
   const { username, email, password } = req.body;
   const newHashPassword = await bcryptjs.hash(password, 10);
 
@@ -12,7 +16,6 @@ export const signup = async (req, res, next) => {
 
   try {
     await newUser.save();
-
     res.status(201).json("User Created Successfully");
   } catch (error) {
     next(error);
@@ -35,7 +38,7 @@ export const signin = async (req, res, next) => {
     if (!validPassword)
       return next(errorHandler(400, "Incorrect email or password "));
 
-    const token = jwt.sign({ id: validUser._id }, 'helooYT24', {
+    const token = jwt.sign({ id: validUser._id }, "helooYT24", {
       expiresIn: "1h",
     });
     const { password: pass, ...rest } = validUser._doc;
@@ -95,4 +98,31 @@ export const google = async (req, res, next) => {
 export const logout = (req, res) => {
   res.clearCookie("access_token");
   res.json({ msg: "Logged out successfully" });
+};
+
+export const reset = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user)
+      return res.status(400).json({
+        message: "Email Does not exist",
+      });
+
+    const otpCode = Math.ceil(Math.random() * 10000);
+    const otpData = new otp({
+      email: req.body.email,
+      code: otpCode,
+      expireIn: new Date().getTime() + 300 * 1000,
+    });
+
+    await otpData.save();
+
+    if (user) await sendEmail(user.email, "Reset Password", String(otpCode));
+    res.status(200).json({
+      msg: "Code has been sent to your email",
+    });
+  } catch (error) {
+    next(error);
+  }
 };

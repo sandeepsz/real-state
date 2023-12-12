@@ -6,6 +6,8 @@ import Header from "./components/Header";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
+import Forgotpassword from "./pages/Forgotpassword";
+import ResetPassword from "./pages/ResetPassword";
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
+        <Route path="/update-password" element={<Forgotpassword />} />
+        <Route path="/reset" element={<ResetPassword />} />
       </Routes>
     </BrowserRouter>
   );

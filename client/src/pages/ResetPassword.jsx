@@ -1,10 +1,21 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 
-const Forgotpassword = () => {
-  const { loading } = useSelector((state) => state.user);
+import { useNavigate } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+
+import {
+  resetPasswordStart,
+  resetPasswordSuccess,
+  resetPasswordFailure,
+} from "../redux/user/userSlice";
+
+const ResetPassword = () => {
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -17,19 +28,25 @@ const Forgotpassword = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch("/api/auth/update", {
+      dispatch(resetPasswordStart);
+      const res = await fetch("/api/auth/reset", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-      toast.success(data.message);
       const data = await res.json();
+
       if (data.success == false) {
-        toast.error(data.message);
+        dispatch(resetPasswordFailure);
+        console.log(data.message);
+        setLoading(false);
         return;
       }
+      dispatch(resetPasswordSuccess);
+      navigate("/update-password");
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +54,7 @@ const Forgotpassword = () => {
   return (
     <div className="px-4  max-w-lg mx-auto mt-10">
       <h1 className="text-3xl text-center font-semibold my-6 ">
-        Update Password
+        Reset Password
       </h1>
 
       <form
@@ -47,33 +64,22 @@ const Forgotpassword = () => {
       >
         <input
           required
-          placeholder="OTP"
-          id="code"
+          placeholder="email"
+          type="email"
+          id="email"
           className="border p-3 rounded-lg focus:outline-none"
           onChange={handleChange}
         />
-        <input
-          required
-          type="password"
-          placeholder="Password"
-          className="border p-3 rounded-lg focus:outline-none"
-          id="password"
-          onChange={handleChange}
-        />
+
         <button
           disabled={loading}
           className="bg-[#003b36] p-3 text-white  uppercase rounded-lg hover:opacity-90 disabled:opacity-80"
         >
-          {loading ? "Loading..." : "Reset"}
+          {loading ? "Loading..." : "Submit"}
         </button>
       </form>
-      <div className="bg-[#c1edc2] mt-40 text-center p-1 rounded-sm ">
-        <p className="text-[#87878b] font-semibold">
-          OTP has been sent to your email
-        </p>
-      </div>
     </div>
   );
 };
 
-export default Forgotpassword;
+export default ResetPassword;

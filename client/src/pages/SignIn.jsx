@@ -75,6 +75,10 @@ const SignIn = () => {
           id="password"
           onChange={handleChange}
         />
+
+        <Link to="/reset">
+          <p className="text-blue-700 underline mt-1">Forgot password?</p>
+        </Link>
         <button
           disabled={loading}
           className="bg-[#003b36] p-3 text-white  uppercase rounded-lg hover:opacity-90 disabled:opacity-80"

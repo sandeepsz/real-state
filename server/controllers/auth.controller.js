@@ -113,7 +113,7 @@ export const reset = async (req, res, next) => {
     const otpData = new otp({
       email: req.body.email,
       code: otpCode,
-      expireIn: new Date().getTime() + 300 * 1000,
+      expireIn: new Date().getTime() + 300000,
     });
 
     await otpData.save();
@@ -122,6 +122,45 @@ export const reset = async (req, res, next) => {
     res.status(200).json({
       msg: "Code has been sent to your email",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// update password
+
+export const update = async (req, res, next) => {
+  console.log(req);
+  try {
+    const data = await otp.findOne({ code: req.body.code });
+    console.log(data);
+
+    let email = data.email;
+
+    if (!data) return next(errorHandler(400, "Invalid OTP!"));
+
+    if (data) {
+      const currentTime = new Date().getTime();
+      const remainingTime = data.expireIn - currentTime;
+
+      console.log(data._id);
+
+      if (remainingTime < 0) return next(errorHandler(400, "OTP expired !"));
+      await otp.findByIdAndDelete(data._id);
+    }
+
+    const user = await User.findOne({ email: email });
+
+    const hashPassword = await bcryptjs.hash(req.body.password, 10);
+    if (user) {
+      user.password = hashPassword;
+      await user.save();
+    }
+
+    res.status(200).json({
+      message: "Password changed successfully",
+    });
+    await otp.findByIdAndUpdate(otp._id);
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
-import ejs from "ejs";
 import path from "path";
+import ejs from "ejs";
 const __dirname = path.resolve();
 
 const sendEmail = async (email, subject, text) => {

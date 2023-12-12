@@ -5,6 +5,7 @@ import {
   google,
   logout,
   reset,
+  update,
 } from "../controllers/auth.controller.js";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post("/signin", signin);
 router.post("/google", google);
 router.get("/logout", logout);
 router.post("/reset", reset);
+router.post("/update", update);
 
 export default router;

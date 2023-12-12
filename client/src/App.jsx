@@ -8,6 +8,7 @@ import Profile from "./pages/Profile";
 import PrivateRoute from "./components/PrivateRoute";
 import Forgotpassword from "./pages/Forgotpassword";
 import ResetPassword from "./pages/ResetPassword";
+import CreateListing from "./pages/CreateListing";
 function App() {
   return (
     <BrowserRouter>
@@ -22,6 +23,7 @@ function App() {
         </Route>
         <Route path="/update-password" element={<Forgotpassword />} />
         <Route path="/reset" element={<ResetPassword />} />
+        <Route path="/creating-listing" element={<CreateListing />} />
       </Routes>
     </BrowserRouter>
   );

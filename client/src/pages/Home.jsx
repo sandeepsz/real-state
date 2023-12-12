@@ -1,8 +1,5 @@
-import house1 from "./../assets/images/home/house-1.png";
 import house2 from "./../assets/images/home/house-2.png";
-import house3 from "./../assets/images/home/house-3.png";
 import house4 from "./../assets/images/home/house-4.png";
-// import Button from "@mui/material/Button";
 
 const Home = () => {
   return (
@@ -22,15 +19,6 @@ const Home = () => {
           Where Dreams Find
           <span className="text-[#003b36] text-stroke-2"> Their Address</span>
         </h1>
-        {/* <Button
-          variant="outlined"
-          size="large"
-          sx={{
-            color: "green",
-          }}
-        >
-          Explore Now
-        </Button> */}
       </div>
     </div>
   );

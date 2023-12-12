@@ -17,6 +17,7 @@ import {
   deleteUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const fileRef = useRef(null);
@@ -189,10 +190,17 @@ const Profile = () => {
 
       <button
         onClick={handleDeleteAccount}
-        className="bg-red-500 my-5 rounded-md p-2 text-white hover:opacity-80"
+        className="bg-red-500 my-5 rounded-lg p-2 text-white hover:opacity-80"
       >
         Delete Account
       </button>
+
+      <Link
+        className="bg-green-700 text-white p-2 rounded-lg hover:opacity-95 disabled:opacity-80"
+        to={"/creating-listing"}
+      >
+        Creating Listing
+      </Link>
       <Toaster />
     </div>
   );
